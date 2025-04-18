@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Algerian Artists</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        .artist-card {
+            transition: transform 0.2s;
+        }
+        .artist-card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-4">
+    <h1 class="mb-4">Algerian Artists</h1>
+
+    <form method="get" action="/" class="form-inline mb-4">
+        <input type="text" name="search" class="form-control mr-2" placeholder="Search artist name">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="/xslt" class="btn btn-secondary ml-2" target="_blank">View XSLT Version</a>
+    </form>
+
+    {% if artists %}
+        <div class="row">
+            {% for artist in artists %}
+                <div class="col-md-6 mb-4">
+                    <div class="card artist-card">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ artist.name }}</h4>
+                            <p><strong>City:</strong> {{ artist.city }}</p>
+                            <p><strong>Biography:</strong> {{ artist.biography }}</p>
+                            <p><a href="{{ artist.website }}" target="_blank">Visit Website</a></p>
+                            <h5>Albums:</h5>
+                            <ul>
+                                {% for album in artist.albums %}
+                                    <li>{{ album.title }} ({{ album.year }})
+                                        <ul>
+                                            {% for track in album.tracks %}
+                                                <li>{{ track }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No artists found.</p>
+    {% endif %}
+</div>
+
+<script>
+    // Optional JavaScript action on form submit
+    document.querySelector("form").addEventListener("submit", function () {
+        alert("Searching...");
+    });
+</script>
+</body>
+</html>
